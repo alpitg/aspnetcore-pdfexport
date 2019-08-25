@@ -18,21 +18,27 @@ export class FetchDataComponent {
   }
 
   onExportPdf() {
+    // const httpOptions = {
+    //   headers: new HttpHeaders(
+    //     {
+    //       Accept: 'application/pdf',
+    //       responseType: 'arraybuffer' as 'json'
+    //     }
+    //   )
+    // };
+
     const httpOptions = {
-      headers: new HttpHeaders(
-        {
-          Accept: 'application/pdf',
-          responseType: 'arraybuffer' as 'json'
-        }
-      )
+      // make sure 'responseType' is included outside of 'header'
+      'responseType'  : 'arraybuffer' as 'json'
     };
+
     this.http.get<any>(this.baseUrl + 'api/Pdf/Create', httpOptions)
-    .pipe(map(res =>console.log(res)))
+    // .pipe(map(res =>console.log(res)))
     .subscribe(result => {
       console.log(result);
-      // let file = new Blob([result.byteArray], { type: 'application/pdf' });            
-      // var fileURL = URL.createObjectURL(file);
-      // window.open(fileURL);
+      let file = new Blob([result], { type: 'application/pdf' });            
+      var fileURL = URL.createObjectURL(file);
+      window.open(fileURL);
     }, error => console.error(error));
   }
 }
