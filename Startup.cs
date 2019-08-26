@@ -35,15 +35,15 @@ namespace AspnetcorePdfExport
             services.AddScoped<IPDFService, PDFService>();
 
 
-            // var processSufix = "32bit";
-            // if (Environment.Is64BitProcess && IntPtr.Size == 8)
-            // {
-            //     processSufix = "64bit";
-            // }
+            var processSufix = "32bit";
+            if (Environment.Is64BitProcess && IntPtr.Size == 8)
+            {
+                processSufix = "64bit";
+            }
 
             var pdfcontext = new CustomPdfContext();
-            pdfcontext.LoadUnmanagedLibrary(Path.Combine(Directory.GetCurrentDirectory(), $"libwkhtmltox.dll"));
-            // pdfcontext.LoadUnmanagedLibrary(Path.Combine(Directory.GetCurrentDirectory(), $"PDFNative/{processSufix}/libwkhtmltox.dll"));
+            // pdfcontext.LoadUnmanagedLibrary(Path.Combine(Directory.GetCurrentDirectory(), $"libwkhtmltox.dll"));
+            pdfcontext.LoadUnmanagedLibrary(Path.Combine(Directory.GetCurrentDirectory(), $"PDFNative/{processSufix}/libwkhtmltox.dll"));
 
             services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
 
